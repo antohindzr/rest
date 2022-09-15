@@ -1,64 +1,33 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Задание
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Написать REST API для генерации рандомного числа используя PHP-фреймворк на выбор. Каждой генерации присваивать уникальный id по которому можно получить результат генерации. На выходе 2 публичных API метода: generate() и retrieve(id).
 
-## About Laravel
+Использован WSL2 Ubuntu-22.04 под Windows 10 Корп, Laravel 4.2.16, PHP 8.1.2, mysql 8.0.30, VSCode 1.70.2
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Работа проверялась в Postman. Результаты выполнения команд выдаются в формате json.
+Описание кейсов в Postman:
+1. Генерация(randomGenerate):                        POST->http://localhost:8000/api/random/ ;
+![1](https://user-images.githubusercontent.com/52713085/187990937-fd650437-ee3e-4f47-9821-6732d10fb2a3.jpg)
+![2](https://user-images.githubusercontent.com/52713085/187991532-c8db1f37-de1f-4041-af0c-2ea1138db0c6.jpg)
+![3](https://user-images.githubusercontent.com/52713085/187991895-2983aec4-8dc9-4910-b31d-886ce880b968.jpg)
+2. Вывод всех результатов генераций (random): GET->http://localhost:8000/api/random/  ;
+![4](https://user-images.githubusercontent.com/52713085/187992124-7f8be77a-f50a-4788-94cd-1ee1174fec0f.jpg)
+3. Удаление результата (randomDelete): DELETE->http://localhost:8000/api/random/X, где X - номер (id) строки в БД ;
+В коде этого метода присутствует проверка на введение несуществующего в БД "id" с выдачей сообщения об ошибке в случае, если id не найден.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+4. Вывод результата генерации по уникальному идентификатору (randomRetrieve): GET->http://localhost:8000/api/random/Y, где Y - уникальный идентификатор (uniq) генерации ;
+![5](https://user-images.githubusercontent.com/52713085/187992271-13a13e0c-3afa-4c01-b809-154047671e1d.jpg)
+for example:
+{
+    "id": 5, - номер строки в БД;
+    "uniq": 543540030, - уникальный идентификатор генерации;
+    "value": 1583335897 - рандомно сгенерированное число.
+}
+В коде этого метода присутствует проверка на введение несуществующего "uniq" с выдачей сообщения об ошибке в случае, если уникальный идентификатор не найден.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+5. Внесение изменения в результат (value) и уникальный идентификатор (uniq) генерации с номером (id) в БД (randomEdit):
+PUT->http://localhost:8000/api/random/X?value=Y&uniq=Z, 
+где X - номер (id) строки в БД ;
+где Y и Z - вносимые измененные данные результата и идентификатора генерации соответственно.
+В коде этого метода введена валидация вводимых данных "uniq" и "value" на количество символов.
+В коде этого метода присутствует проверка на введение несуществующего в БД "id" с выдачей сообщения об ошибке в случае, если id не найден.
